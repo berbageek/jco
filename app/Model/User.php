@@ -8,4 +8,19 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticable
 {
     use Notifiable;
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assignee_id');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
 }
