@@ -40,6 +40,13 @@ class DatabaseSeeder extends Seeder
                 // // 5. TASK
                 // // Untuk setiap tasklists di atas, tambahkan beberapa task
                 $tasks = factory(\App\Model\Task::class)->times(5)->make();
+                $tasks->each( function($task) use ($users) {
+                    $creator = $users->random();
+                    $assignee = $users->random();
+                    $task->creator()->associate($creator);
+                    $task->assignee()->associate($assignee);
+                });
+
                 $tasklists->each(function ($tasklist) use ($tasks) {
                     $tasklist->tasks()->saveMany($tasks);
                 });
