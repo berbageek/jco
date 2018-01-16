@@ -10,4 +10,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class, 'commentator_id');
     }
+
+    // public function task()
+    // {
+    //     $this->belongsTo(Task::class);
+    // }
 }
