@@ -32,7 +32,7 @@ class CreateForeignKeys extends Migration
             $table->foreign('commentator_id')->references('id')->on('users');
         });
 
-        Schema::table('project_users', function (Blueprint $table) {
+        Schema::table('project_user', function (Blueprint $table) {
             $table->foreign('project_id')->references('id')->on('projects');
             $table->foreign('user_id')->references('id')->on('users');
         });
