@@ -11,32 +11,26 @@
 |
 */
 
-// CRUD project
-Route::resource('projects', 'Project\ProjectController');
+Route::group(['namespace' => 'Project'], function () {
 
-// Project members
-Route::get('projects/{projectId}/members', 'Project\MemberController@index');
-Route::post('projects/{projectId}/members', 'Project\MemberController@store');
-Route::delete('projects/{projectId}/members/{memberId}', 'Project\MemberController@destroy');
+    Route::resource('project', 'ProjectController');
 
-// Project tasklists
-Route::post('projects/{projectId}/tasklists', 'Project\TasklistController@store');
-Route::delete('projects/{projectId}/tasklists/{tasklistId}', 'Project\TasklistController@destroy');
+    Route::group(['prefix' => 'projects/{project}', 'as' => 'project.'], function() {
+        Route::resource('members', 'MemberController', ['only' => ['index', 'store', 'destroy']]);
+        Route::resource('tasklists', 'TasklistController', ['only' => ['store', 'destroy']]);
+        Route::resource('tasks', 'TaskController', ['only' => ['show', 'store']]);
+        Route::resource('subtasks', 'SubtaskController', ['only' => ['store']]);
+        Route::resource('comments', 'CommentController', ['only' => ['store']]);
+        Route::resource('assignee', 'AssigneeController', ['only' => ['store']]);
+        Route::resource('reports', 'ReportController', ['only' => ['index']]);
+    });
+});
 
-//Project tasks
-Route::get('projects/{projectId}/tasks/{taskId}', 'Project\TaskController@show');
-Route::post('projects/{projectId}/tasks', 'Project\TaskController@store');
-
-// Subtasks
-Route::post('Project\{projectId}/subtasks', 'Project\SubtaskController@store');
-
-// Comment
-// Project -> Tasklist -> Task -> Comment
-Route::post('projects/{projectId}/comments', 'Project\CommentController@store');
-
-// Assignee
-Route::post('projects/{projectId}/assignee', 'Project\AssigneeController@store');
-
-// Report
-Route::get('projects/{projectId}/reports', 'Project\ReportController@index');
-
+// Route::resource('project', 'ProjectController');
+// Route::resource('project.members', 'Project\MemberController', ['only' => ['index', 'store', 'destroy']]);
+// Route::resource('project.tasklists', 'Project\TasklistController', ['only' => ['store', 'destroy']]);
+// Route::resource('project.tasks', 'Project\TaskController', ['only' => ['show', 'store']]);
+// Route::resource('project.subtasks', 'Project\SubtaskController', ['only' => ['store']]);
+// Route::resource('project.comments', 'Project\CommentController', ['only' => ['store']]);
+// Route::resource('project.assignee', 'Project\AssigneeController', ['only' => ['store']]);
+// Route::resource('project.reports', 'Project\ReportController', ['only' => ['index']]);
