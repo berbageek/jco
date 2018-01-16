@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             ->times(20)
             ->create()
             ->each(function ($user) {
-                $user->profile()->save(factory(\App\Model\Profile::class)->make());
+                $profile = factory(\App\Model\Profile::class)->make();
+                $user->profile()->save($profile);
             });
 
         // 2. DATA PROJECTS
@@ -36,15 +37,15 @@ class DatabaseSeeder extends Seeder
                 $tasklists = factory(\App\Model\Tasklist::class)->times(3)->make();
                 $project->tasklists()->saveMany($tasklists);
 
-                // 5. TASK
-                // Untuk setiap tasklists di atas, tambahkan beberapa task
+                // // 5. TASK
+                // // Untuk setiap tasklists di atas, tambahkan beberapa task
                 $tasks = factory(\App\Model\Task::class)->times(5)->make();
                 $tasklists->each(function ($tasklist) use ($tasks) {
                     $tasklist->tasks()->saveMany($tasks);
                 });
 
-                // 6. COMMENTS
-                // Untuk setiap task di atas, tambahkan beberapa comment
+                // // 6. COMMENTS
+                // // Untuk setiap task di atas, tambahkan beberapa comment
                 $comments = factory(\App\Model\Comment::class)->times(2)->make();
                 $comments->each( function ($comment) use ($users) {
                     $comment->commentator()->associate($users->random());
@@ -54,8 +55,8 @@ class DatabaseSeeder extends Seeder
                     $task->comments()->saveMany($comments);
                 });
 
-                // 7. MEMBERS
-                // Pilih beberapa random user sebagai member project
+                // // 7. MEMBERS
+                // // Pilih beberapa random user sebagai member project
                 $members = $users->random(5);
                 $project->members()->attach($members);
             });
