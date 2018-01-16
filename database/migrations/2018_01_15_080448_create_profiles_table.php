@@ -17,7 +17,7 @@ class CreateProfilesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('jenis_kelamin');
-            $table->string('tanggal_lahir');
+            $table->date('tanggal_lahir');
             $table->string('pendidikan_terakhir')->nullable();
             $table->string('status_pernikahan')->nullable();
             $table->string('alamat')->nullable();
