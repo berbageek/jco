@@ -45,10 +45,11 @@ class DatabaseSeeder extends Seeder
 
                 // 6. COMMENTS
                 // Untuk setiap task di atas, tambahkan beberapa comment
-                $comments = factory(\App\Model\Comment::class)->times(2)->make()
-                    ->each( function ($comment) use ($users) {
-                        $comment->commentator()->associate($users->random());
-                    });
+                $comments = factory(\App\Model\Comment::class)->times(2)->make();
+                $comments->each( function ($comment) use ($users) {
+                    $comment->commentator()->associate($users->random());
+                });
+
                 $tasks->each( function ($task) use ($comments) {
                     $task->comments()->saveMany($comments);
                 });
