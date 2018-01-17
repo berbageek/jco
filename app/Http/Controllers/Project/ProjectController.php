@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Project\EditRequest;
+use App\Http\Requests\Project\StoreRequest;
+use App\Http\Requests\Project\UpdateRequest;
+use App\Model\Client;
 use App\Model\Project;
 use Illuminate\Http\Request;
 
@@ -13,11 +17,11 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::all();
+        $projects = Project::where('user_id', $request->user()->id)->paginate();
 
-        return response()->json($projects);
+        return view('project.index', compact('projects'));
     }
 
     /**
@@ -27,7 +31,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $clients = Client::pluck('nama', 'id');
 
+        return view('project.create', compact('clients'));
     }
 
     /**
@@ -36,9 +42,14 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $project = new Project();
+        $project->fill($request->except('_token'));
+        $project->client()->associate($request->get('client_id'));
+        $project->save();
+
+        return redirect()->route('project.index');
     }
 
     /**
@@ -47,10 +58,8 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Project $project)
     {
-        $project = Project::findOrFail($id);
-
         return response()->json($project);
     }
 
@@ -60,11 +69,11 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(EditRequest $request, Project $project)
     {
-        $project = Project::findOrFail($id);
+        $clients = Client::pluck('nama', 'id');
 
-        return response()->json($project);
+        return view('project.edit', compact('project', 'clients'));
     }
 
     /**
@@ -74,9 +83,15 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Project $project)
     {
-        //
+        $project->fill($request->except('_token', '_method'));
+
+        $project->client()->associate($request->get('client_id'));
+
+        $project->save();
+
+        return redirect()->route('project.index');
     }
 
     /**

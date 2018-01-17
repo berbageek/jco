@@ -34,3 +34,7 @@ Route::group(['namespace' => 'Project'], function () {
 // Route::resource('project.comments', 'Project\CommentController', ['only' => ['store']]);
 // Route::resource('project.assignee', 'Project\AssigneeController', ['only' => ['store']]);
 // Route::resource('project.reports', 'Project\ReportController', ['only' => ['index']]);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

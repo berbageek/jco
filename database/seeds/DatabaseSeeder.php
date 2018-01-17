@@ -25,11 +25,12 @@ class DatabaseSeeder extends Seeder
             ->times(20)
             ->make()
             ->each(function ($project) use ($users) {
-
                 // 3. DATA KLIEN
                 // Untuk setiap project, bikin client baru
                 $client = factory(\App\Model\Client::class)->create();
                 $project->client()->associate($client);
+
+                $project->user()->associate($users->random());
                 $project->save();
 
                 // 4. TASKLISTS
