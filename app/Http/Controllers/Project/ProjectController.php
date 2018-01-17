@@ -46,6 +46,7 @@ class ProjectController extends Controller
     {
         $project = new Project();
         $project->fill($request->except('_token'));
+        $project->user()->associate($request->user());
         $project->client()->associate($request->get('client_id'));
         $project->save();
 
