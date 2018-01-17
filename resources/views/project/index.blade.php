@@ -3,12 +3,13 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-9 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">Project List</div>
 
                     <div class="panel-body">
-                        <a href="{{ route('project.create') }}" class="btn btn-primary">Tambah Baru</a>
+                        <a href="{{ route('project.create') }}" class="btn btn-primary" style="margin-bottom: 20px;">Tambah Baru</a>
+
 
                         <table class="table table-bordered">
                             <thead>

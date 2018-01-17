@@ -8,11 +8,11 @@
                     <div class="panel-heading">Edit Project</div>
 
                     <div class="panel-body">
-                        <form method="post" action="{{ route('project.update', $project) }}">
+                        <form class="form-horizontal" method="post" action="{{ route('project.update', $project) }}">
                             {{ method_field('PUT') }}
                             {{ csrf_field() }}
 
-                            <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
+                            <div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
                                 <label for="nama" class="col-md-4 control-label">Name</label>
 
                                 <div class="col-md-6">

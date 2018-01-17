@@ -12,10 +12,9 @@
 */
 
 Route::group(['namespace' => 'Project'], function () {
-
     Route::resource('project', 'ProjectController');
 
-    Route::group(['prefix' => 'projects/{project}', 'as' => 'project.'], function() {
+    Route::group(['prefix' => 'projects/{project}', 'as' => 'project.'], function () {
         Route::resource('members', 'MemberController', ['only' => ['index', 'store', 'destroy']]);
         Route::resource('tasklists', 'TasklistController', ['only' => ['store', 'destroy']]);
         Route::resource('tasks', 'TaskController', ['only' => ['show', 'store']]);
@@ -25,6 +24,8 @@ Route::group(['namespace' => 'Project'], function () {
         Route::resource('reports', 'ReportController', ['only' => ['index']]);
     });
 });
+
+Route::view('/', 'welcome');
 
 // Route::resource('project', 'ProjectController');
 // Route::resource('project.members', 'Project\MemberController', ['only' => ['index', 'store', 'destroy']]);

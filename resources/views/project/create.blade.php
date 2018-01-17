@@ -8,10 +8,10 @@
                     <div class="panel-heading">Create Project</div>
 
                     <div class="panel-body">
-                        <form method="post" action="{{ route('project.store') }}">
+                        <form class="form-horizontal" method="post" action="{{ route('project.store') }}">
                             {{ csrf_field() }}
 
-                            <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
+                            <div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
                                 <label for="nama" class="col-md-4 control-label">Name</label>
 
                                 <div class="col-md-6">
@@ -25,7 +25,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('client_id') ? ' has-error' : '' }}">
+                            <div class="form-group {{ $errors->has('client_id') ? ' has-error' : '' }}">
                                 <label for="client_id" class="col-md-4 control-label">Client</label>
 
                                 <div class="col-md-6">
