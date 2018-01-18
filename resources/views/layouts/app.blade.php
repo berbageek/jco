@@ -48,6 +48,19 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    Notifikasi <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    @foreach (auth()->user()->unreadNotifications as $notification)
+                                    <li>
+                                        <a href="{{ url($notification->data['url']) }}">{{ $notification->data['message'] }}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 

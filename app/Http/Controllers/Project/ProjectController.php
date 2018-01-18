@@ -8,6 +8,8 @@ use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use App\Model\Client;
 use App\Model\Project;
+use App\Model\User;
+use App\Notifications\ProjectCreated;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -46,11 +48,20 @@ class ProjectController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        /**
+         * @var Project $project
+         */
         $project = new Project();
         $project->fill($request->except('_token'));
         $project->user()->associate($request->user());
         $project->client()->associate($request->get('client_id'));
         $project->save();
+
+        /**
+         * @var User $user
+         */
+        $user = $request->user();
+        $user->notify(new ProjectCreated($project));
 
         return redirect()->route('project.index');
     }
