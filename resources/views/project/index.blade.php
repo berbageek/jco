@@ -32,7 +32,7 @@
                                 <td>{{ $project->deskripsi }}</td>
                                 <td>
                                     <a href="" class="btn btn-default">Show</a>
-                                    
+
                                     @can('update', $project)
                                     <a href="{{ route('project.edit', $project) }}" class="btn btn-default">Edit</a>
                                     @endcan
