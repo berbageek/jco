@@ -9,6 +9,11 @@ class User extends Authenticable
 {
     use Notifiable;
 
+    public function routeNotificationForNexmo()
+    {
+        return $this->profile->nomor_hp;
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
