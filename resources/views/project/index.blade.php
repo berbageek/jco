@@ -8,8 +8,10 @@
                     <div class="panel-heading">Project List</div>
 
                     <div class="panel-body">
-                        <a href="{{ route('project.create') }}" class="btn btn-primary" style="margin-bottom: 20px;">Tambah Baru</a>
 
+                        @can('create', \App\Model\Project::class)
+                        <a href="{{ route('project.create') }}" class="btn btn-primary" style="margin-bottom: 20px;">Tambah Baru</a>
+                        @endcan
 
                         <table class="table table-bordered">
                             <thead>
@@ -30,8 +32,14 @@
                                 <td>{{ $project->deskripsi }}</td>
                                 <td>
                                     <a href="" class="btn btn-default">Show</a>
+                                    
+                                    @can('update', $project)
                                     <a href="{{ route('project.edit', $project) }}" class="btn btn-default">Edit</a>
+                                    @endcan
+
+                                    @can('destroy', $project)
                                     <a href="" class="btn btn-danger">Delete</a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach
