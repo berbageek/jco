@@ -36,7 +36,7 @@ class ProjectCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -69,7 +69,7 @@ class ProjectCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'message' => 'Selamat Project Berhasil Dibuat: ' . $this->project->nama,
         ];
     }
 }
