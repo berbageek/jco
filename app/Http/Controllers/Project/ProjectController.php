@@ -31,6 +31,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Project::class);
+
         $clients = Client::pluck('nama', 'id');
 
         return view('project.create', compact('clients'));
@@ -72,6 +74,8 @@ class ProjectController extends Controller
      */
     public function edit(EditRequest $request, Project $project)
     {
+        $this->authorize('update', $project);
+
         $clients = Client::pluck('nama', 'id');
 
         return view('project.edit', compact('project', 'clients'));
@@ -86,6 +90,8 @@ class ProjectController extends Controller
      */
     public function update(UpdateRequest $request, Project $project)
     {
+        $this->authorize('update', $project);
+
         $project->fill($request->except('_token', '_method'));
 
         $project->client()->associate($request->get('client_id'));
