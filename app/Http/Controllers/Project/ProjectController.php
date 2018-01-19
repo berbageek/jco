@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers\Project;
 
+use App\Events\ProjectCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\EditRequest;
 use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use App\Model\Client;
 use App\Model\Project;
-use App\Model\User;
-use App\Notifications\ProjectCreated;
+use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    /**
+     * @var ProjectService
+     */
+    private $service;
+
+    /**
+     * ProjectController constructor.
+     */
+    public function __construct(ProjectService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,20 +61,9 @@ class ProjectController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        /**
-         * @var Project $project
-         */
-        $project = new Project();
-        $project->fill($request->except('_token'));
-        $project->user()->associate($request->user());
-        $project->client()->associate($request->get('client_id'));
-        $project->save();
+        $project = $this->service->save($request->user(), $request->all());
 
-        /**
-         * @var User $user
-         */
-        $user = $request->user();
-        $user->notify(new ProjectCreated($project));
+        event(new ProjectCreatedEvent($request->user(), $project));
 
         return redirect()->route('project.index');
     }
